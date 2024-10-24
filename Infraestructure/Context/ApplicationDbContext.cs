@@ -11,7 +11,7 @@ namespace Infraestructure.Context;
 
 public class ApplicationDbContext : DbContext
 {
-    public DbSet<Cliente>? Clientes {  get; set; }
+    public DbSet<Cliente>? Clientes { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
 
