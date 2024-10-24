@@ -5,19 +5,17 @@
 <PageTitle>Novo Cliente</PageTitle>
 <div class="row justify-content-center">
     <div class="col-6">
-        <EditForm Enhance="true" method="post" FormName="NovoClienteForm" OnValidSubmit="AdicionarCliente"
-                  Model="Cliente" id="AddCliente">
-
+        <EditForm Model="cliente" OnValidSubmit="AdicionarCliente">
             <h3>Novo Cliente</h3>
 
             <div class="mb-3">
                 <label for="Nome" class="form-label">Nome</label>
-                <InputText id="Nome" @bind-Value="Cliente.Nome" class="form-control" />
+                <InputText id="Nome" @bind-Value="cliente.Nome" class="form-control" />
             </div>
 
             <div class="mb-3">
                 <label for="DataNascimento" class="form-label">Data de Nascimento</label>
-                <InputDate id="DataNascimento" @bind-Value="Cliente.DataNascimento" class="form-control" />
+                <InputDate id="DataNascimento" @bind-Value="cliente.DataNascimento" class="form-control" />
             </div>
 
             <div class="mb-3">
@@ -33,6 +31,7 @@
                     Retornar para clientes
                 </a>
             </div>
+
             <DataAnnotationsValidator />
             <ValidationSummary />
         </EditForm>
@@ -40,15 +39,14 @@
 </div>
 
 @code {
-    [SupplyParameterFromForm(FormName = "NovoClienteForm")]
-    public Cliente? Cliente { get; set; }
-    
+    public Cliente cliente { get; set; } = new Cliente();
+
     protected override void OnInitialized() =>
-        Cliente ??= new Cliente(null, DateTime.Now, false);
-    
+        cliente = new Cliente { DataNascimento = DateTime.Now, ClienteAtivo = false };
+
     private async Task AdicionarCliente()
     {
-        await ClienteRepository.AdicionarCliente(Cliente);
+        await ClienteRepository.AdicionarCliente(cliente);
         navigation.NavigateTo("/clientes");
     }
 }
