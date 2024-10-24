@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clientes.Domain", "Clientes.Domain\Clientes.Domain.csproj", "{24E6667C-C983-4C34-8104-383F3B365499}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente.Domain", "Clientes.Domain\Cliente.Domain.csproj", "{24E6667C-C983-4C34-8104-383F3B365499}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cliente.Aplication", "Cliente.Aplication\Cliente.Aplication.csproj", "{C1A73A62-0801-4721-97F5-F1FD55565E7F}"
 EndProject
