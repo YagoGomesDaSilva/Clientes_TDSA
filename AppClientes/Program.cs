@@ -1,4 +1,4 @@
-using Cliente.App.Components;
+using AppClientes.Components;
 using CrossCutting.DependenciesApp;
 
 var builder = WebApplication.CreateBuilder(args);

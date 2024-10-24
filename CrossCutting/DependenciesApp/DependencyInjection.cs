@@ -18,7 +18,12 @@ namespace CrossCutting.DependenciesApp
         {
             var ConectionString = configuration.GetConnectionString("AppDbConnectionStrings");
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(ConectionString, ServerVersion.AutoDetect(ConectionString)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
+                ConectionString, 
+                //x => x.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                ServerVersion.AutoDetect(ConectionString)
+                )
+            );
 
             //faz a injeção de dependencia
             services.AddScoped<IClienteRepository, ClienteRepository>();
