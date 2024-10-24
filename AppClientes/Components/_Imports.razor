@@ -8,3 +8,10 @@
 @using Microsoft.JSInterop
 @using AppClientes
 @using AppClientes.Components
+
+@using Infraestructure.Repositories
+@using Domain.Abstractions
+@using Domain.Entities
+
+@inject IClienteRepository ClienteRepository
+@inject NavigationManager navigation

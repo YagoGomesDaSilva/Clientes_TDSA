@@ -1,0 +1,54 @@
+﻿@page "/novocliente"
+
+<h3>NovoCliente</h3>
+
+<PageTitle>Novo Cliente</PageTitle>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <EditForm Enhance="true" method="post" FormName="NovoClienteForm" OnValidSubmit="AdicionarCliente"
+                  Model="Cliente" id="AddCliente">
+
+            <h3>Novo Cliente</h3>
+
+            <div class="mb-3">
+                <label for="Nome" class="form-label">Nome</label>
+                <InputText id="Nome" @bind-Value="Cliente.Nome" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="DataNascimento" class="form-label">Data de Nascimento</label>
+                <InputDate id="DataNascimento" @bind-Value="Cliente.DataNascimento" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label for="ClienteAtivo">Ativo</label>
+                <InputCheckbox id="ClienteAtivo" @bind-Value="cliente.ClienteAtivo" />
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary shadow-none">
+                    Enviar
+                </button>
+                <a href="/clientes" class="btn btn-secondary ms-3" data-enhance-nav="false">
+                    Retornar para clientes
+                </a>
+            </div>
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm(FormName = "NovoClienteForm")]
+    public Cliente? Cliente { get; set; }
+    
+    protected override void OnInitialized() =>
+        Cliente ??= new Cliente(null, DateTime.Now, false);
+    
+    private async Task AdicionarCliente()
+    {
+        await ClienteRepository.AdicionarCliente(Cliente);
+        navigation.NavigateTo("/clientes");
+    }
+}
