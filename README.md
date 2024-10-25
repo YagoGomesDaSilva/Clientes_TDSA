@@ -76,3 +76,8 @@ A arquitetura limpa tem como objetivo principal garantir que o projeto seja:
     dotnet run
     ```
 
+5. Vídeo Explicativo:
+    ```bash
+    (https://www.youtube.com/watch?v=Q0AIvLSem7E)
+    ```
+
