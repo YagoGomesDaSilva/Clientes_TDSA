@@ -1,10 +1,10 @@
 ﻿@page "/clientes"
-@rendermode InteractiveServer
+@attribute [StreamRendering]
 
 <h3>Clientes</h3>
 
 <p>
-    <a href="/novocliente">Criar Novo cliente</a>
+    <a class="btn btn-secondary" href="/novocliente">Criar Novo cliente</a>
 </p>
 @if (clientes is null)
 {
@@ -15,7 +15,7 @@ else
     <div class="row">
         @foreach (var cliente in clientes)
         {
-            <ClientesCard Cliente="@cliente" />
+            <ClientesCard @rendermode="InteractiveServer" Cliente="@cliente" />
         }
     </div>
 }
