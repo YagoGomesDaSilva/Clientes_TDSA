@@ -1,0 +1,18 @@
+﻿@page "/novocliente"
+@rendermode InteractiveServer
+
+<PageTitle>Novo Cliente</PageTitle>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <ClienteForm ModoEdicao="false" OnValidaClienteSubmit="AdicionarCliente" />
+    </div>
+</div>
+
+@code {
+    private async Task AdicionarCliente(Cliente cliente)
+    {
+        await ClienteRepository.AdicionarCliente(cliente);
+        navigation.NavigateTo("/clientes");
+    }
+}

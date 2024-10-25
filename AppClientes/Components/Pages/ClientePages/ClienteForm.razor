@@ -1,0 +1,73 @@
+﻿
+
+﻿@if (Cliente is not null)
+{
+    <EditForm  FormName="ClienteForm" OnValidSubmit="EditaAdicionaCliente"
+              Model="Cliente" id="EditaAdicionaCliente">
+
+        <h3>@Cabecalho</h3>
+
+        @if (ModoEdicao)
+        {
+            <input type="hidden" name="Cliente.Id" value="@Cliente.Id" />
+        }
+
+        <div class="mb-3">
+            <label for="Nome" class="form-label">Nome</label>
+            <InputText id="Nome" @bind-Value="Cliente.Nome" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="DataNascimento" class="form-label">Data de Nascimento</label>
+            <InputDate id="DataNascimento" @bind-Value="Cliente.DataNascimento" class="form-control" required />
+        </div>
+
+        <div class="mb-3 form-check">
+            <InputCheckbox id="ClienteAtivo" @bind-Value="Cliente.ClienteAtivo" class="form-check-input" />
+            <label class="form-check-label" for="ClienteAtivo">Ativo</label>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary shadow-none">
+                Enviar
+            </button>
+            <a href="/clientes" class="btn btn-secondary ms-3" data-enhance-nav="false">
+                Retornar para clientes
+            </a>
+        </div>
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public bool ModoEdicao { get; set; } = false;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    //informar o componente Pai que o Form foi enviado
+    public EventCallback<Cliente> OnValidaClienteSubmit { get; set; }
+
+    //[SupplyParameterFromForm(FormName = "ClienteForm")]
+    public Cliente? Cliente { get; set; }
+
+    private string Cabecalho => ModoEdicao ? $"Editar Cliente {Id}" : "Novo Cliente";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ModoEdicao)
+            Cliente ??= await ClienteRepository.ObterCliente(Id);
+        else
+            Cliente ??= new Cliente { Nome = string.Empty, DataNascimento = DateTime.Now, ClienteAtivo = false };
+    }
+
+    private async Task EditaAdicionaCliente()
+    {
+        await OnValidaClienteSubmit.InvokeAsync(Cliente);
+    }
+
+}
