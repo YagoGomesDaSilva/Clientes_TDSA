@@ -1,30 +1,31 @@
 ﻿@page "/novocliente"
+@rendermode InteractiveServer
 
-<h3>NovoCliente</h3>
+<h3>Novo Cliente</h3>
 
 <PageTitle>Novo Cliente</PageTitle>
 <div class="row justify-content-center">
     <div class="col-6">
-        <EditForm Model="cliente" OnValidSubmit="AdicionarCliente">
+        <EditForm FormName="NovoClienteForm" id="AddCliente" Model="Cliente" OnValidSubmit="AdicionarCliente">
             <h3>Novo Cliente</h3>
 
             <div class="mb-3">
                 <label for="Nome" class="form-label">Nome</label>
-                <InputText id="Nome" @bind-Value="cliente.Nome" class="form-control" />
+                <InputText id="Nome" @bind-Value="Cliente.Nome" class="form-control" required />
             </div>
 
             <div class="mb-3">
                 <label for="DataNascimento" class="form-label">Data de Nascimento</label>
-                <InputDate id="DataNascimento" @bind-Value="cliente.DataNascimento" class="form-control" />
+                <InputDate id="DataNascimento" @bind-Value="Cliente.DataNascimento" class="form-control" required />
+            </div>
+
+            <div class="mb-3 form-check">
+                <InputCheckbox id="ClienteAtivo" @bind-Value="Cliente.ClienteAtivo" class="form-check-input" />
+                <label class="form-check-label" for="ClienteAtivo">Ativo</label>
             </div>
 
             <div class="mb-3">
-                <label for="ClienteAtivo">Ativo</label>
-                <InputCheckbox id="ClienteAtivo" @bind-Value="cliente.ClienteAtivo" />
-            </div>
-
-            <div class="mb-3">
-                <button class="btn btn-primary shadow-none">
+                <button type="submit" class="btn btn-primary shadow-none">
                     Enviar
                 </button>
                 <a href="/clientes" class="btn btn-secondary ms-3" data-enhance-nav="false">
@@ -39,14 +40,18 @@
 </div>
 
 @code {
-    public Cliente cliente { get; set; } = new Cliente();
+    //[SupplyParameterFromForm(FormName = "NovoClienteForm")]
+    public Cliente? Cliente { get; set; }
 
     protected override void OnInitialized() =>
-        cliente = new Cliente { DataNascimento = DateTime.Now, ClienteAtivo = false };
+        Cliente ??= new Cliente { Nome = string.Empty, DataNascimento = DateTime.Now, ClienteAtivo = false };
 
     private async Task AdicionarCliente()
     {
-        await ClienteRepository.AdicionarCliente(cliente);
-        navigation.NavigateTo("/clientes");
+        if (Cliente is not null)
+        {
+            await ClienteRepository.AdicionarCliente(Cliente);
+            navigation.NavigateTo("/clientes");
+        }
     }
 }
